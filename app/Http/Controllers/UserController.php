@@ -219,18 +219,19 @@ class UserController extends Controller
     }
 
     public function postModifikasiPetisi(Request $request)
-    {
+    {         
+        //Dapatkan query string tipe modifikasi.
+        $tipeModifikasi = $request->input('tipe');
+        
         //Lakukan validasi terlebih dahulu.
         $request->validate([
             'kategori' => 'required',
             'judul' => 'required',
             'konten' => 'required',
-            'gambar' => 'image|dimensions:min_width=300,min_height=300'
+            'gambar' => 'image|' . ($tipeModifikasi == "buat" ? 'required|' : '') . 'dimensions:min_width=300,min_height=300'
         ]);
-        
-        //Dapatkan query string tipe modifikasi.
-        $tipeModifikasi = $request->input('tipe');
 
+        //Cek tipe modifikasi.
         if($tipeModifikasi == "buat")
         {
             //Dapatkan file gambar.
