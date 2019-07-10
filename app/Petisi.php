@@ -67,6 +67,7 @@ class Petisi extends Model
                  ->select(DB::raw('users.name as username'), DB::raw('COUNT(komentar_petisi.petisi_id) as banyak_komentar'))
                  ->leftJoin('komentar_petisi', 'user_detail.id', '=', 'komentar_petisi.user_detail_id')
                  ->join('users', 'user_detail.user_id', '=', 'users.id')
+                 ->orderBy('banyak_komentar', 'desc')
                  ->groupBy('user_detail.id');
     }
 
@@ -76,6 +77,7 @@ class Petisi extends Model
         return DB::table('petisi')
                  ->select(DB::raw('petisi.judul as judul'), DB::raw('COUNT(tanda_tangan_petisi.petisi_id) as banyak_tanda_tangan_petisi'))
                  ->leftJoin('tanda_tangan_petisi', 'petisi.id', '=', 'tanda_tangan_petisi.petisi_id')
+                 ->orderBy('banyak_tanda_tangan_petisi', 'desc')
                  ->groupBy('tanda_tangan_petisi.petisi_id');        
     }
 }
